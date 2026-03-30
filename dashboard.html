@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Hyperliquid Terminal</title>
+
+<style>
+body {
+    background:#0e0e11;
+    color:#ddd;
+    font-family:monospace;
+}
+table {
+    width:100%;
+    border-collapse:collapse;
+}
+th, td {
+    padding:8px;
+    border-bottom:1px solid #222;
+}
+th {
+    color:#888;
+}
+.green { color:#00ff88; }
+.red { color:#ff4d4d; }
+</style>
+
+</head>
+<body>
+
+<h2>⚡ Hyperliquid Live Scanner</h2>
+
+<table id="scanner">
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Price</th>
+<th>Score</th>
+<th>Regime</th>
+<th>VAL</th>
+<th>VAH</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+
+<script>
+
+async function loadScanner() {
+
+    const res = await fetch("http://127.0.0.1:8000/scanner");
+    const data = await res.json();
+
+    const tbody = document.querySelector("#scanner tbody");
+    tbody.innerHTML = "";
+
+    data.forEach(row => {
+
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+        <td>${row.symbol}</td>
+        <td>${row.price.toFixed(2)}</td>
+        <td class="green">${row.score}</td>
+        <td>${row.regime}</td>
+        <td>${row.val.toFixed(2)}</td>
+        <td>${row.vah.toFixed(2)}</td>
+        `;
+
+        tbody.appendChild(tr);
+    });
+}
+
+setInterval(loadScanner, 1000);
+loadScanner();
+
+</script>
+
+</body>
+</html>

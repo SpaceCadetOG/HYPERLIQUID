@@ -1,0 +1,13 @@
+.DS_Store
+.gocache/
+.gomodcache/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+out/
+target/
+.env
+.env.*
+secret.py
