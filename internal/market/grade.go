@@ -7,6 +7,10 @@ import (
 )
 
 func FallbackGradeDirectional(score, delta24h float64, side string) string {
+	return FallbackGradeDirectionalView(score, delta24h, delta24h, side)
+}
+
+func FallbackGradeDirectionalView(score, primaryMove, view24h float64, side string) string {
 	side = strings.ToLower(strings.TrimSpace(side))
 	if score < 0 {
 		score = 0
@@ -14,12 +18,17 @@ func FallbackGradeDirectional(score, delta24h float64, side string) string {
 	if score > 150 {
 		score = 150
 	}
-	mover := delta24h
+	mover := primaryMove
 	if side == "short" {
-		mover = -delta24h
+		mover = -primaryMove
 	}
-	bonus := math.Max(-15, math.Min(15, mover*0.25))
-	adj := score + bonus
+	viewMover := view24h
+	if side == "short" {
+		viewMover = -view24h
+	}
+	primaryBonus := math.Max(-15, math.Min(15, mover*0.25))
+	viewBonus := math.Max(-4, math.Min(4, viewMover*0.08))
+	adj := score + primaryBonus + viewBonus
 	switch {
 	case adj >= 100:
 		return "A+"

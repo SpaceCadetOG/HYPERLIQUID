@@ -51,6 +51,8 @@ func scoreSnapshot(s features.Snapshot, side market.Side, cfg RankConfig) market
 	tradePriority := scoreOut * clamp(conf, 0.05, 1.0) * clamp(integ.Completeness, 0.05, 1.0)
 	return market.RankedMarket{
 		Symbol:            s.Symbol,
+		UTC4hPct:          s.Change4h,
+		UTC1hPct:          s.Change1h,
 		Side:              side,
 		Score:             scoreOut,
 		RawScore:          raw,

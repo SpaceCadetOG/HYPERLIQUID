@@ -43,6 +43,7 @@ type Snapshot struct {
 	ShortWhaleDistanceBps float64
 	ChangePct             float64
 	Change5m              float64
+	Change1h              float64
 	Change30m             float64
 	Change4h              float64
 	Funding               float64
@@ -96,6 +97,7 @@ func BuildSnapshot(mkt market.Market, candles []market.Candle, book market.Order
 	dayUTCChangePct := dayUTCChangePct(candles)
 	momentum := recentMomentumPct(candles, 12)
 	change5m := recentMomentumPct(candles, 1)
+	change1h := recentMomentumPct(candles, 12)
 	change30m := recentMomentumPct(candles, 6)
 	change4h := recentMomentumPct(candles, 48)
 	atrPct := pctOfPrice(atr, mkt.MarkPrice)
@@ -280,6 +282,7 @@ func BuildSnapshot(mkt market.Market, candles []market.Candle, book market.Order
 		ShortWhaleDistanceBps: shortWhaleDistanceBps,
 		ChangePct:             changePct,
 		Change5m:              change5m,
+		Change1h:              change1h,
 		Change30m:             change30m,
 		Change4h:              change4h,
 		Funding:               mkt.FundingRate,

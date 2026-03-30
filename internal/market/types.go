@@ -108,6 +108,8 @@ type OrderResult struct {
 
 type RankedMarket struct {
 	Symbol            string
+	UTC4hPct          float64
+	UTC1hPct          float64
 	Side              Side
 	Score             float64
 	RawScore          float64
@@ -176,6 +178,8 @@ type EligibilitySignals struct {
 
 type Scored struct {
 	Symbol             string
+	UTC4hPct           *float64
+	UTC1hPct           *float64
 	Change24h          float64
 	DayUTC24h          *float64
 	VolumeUSD          float64

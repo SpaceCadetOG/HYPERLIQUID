@@ -33,19 +33,26 @@ func FormatRow(s Scored) string {
 	if s.OIUSD != nil {
 		oi = HumanUSD(*s.OIUSD)
 	}
-	dayUTC := "-"
+	dayUTC := fmt.Sprintf("%+.1f", s.Change24h)
 	if s.DayUTC24h != nil {
 		dayUTC = fmt.Sprintf("%+.1f", *s.DayUTC24h)
 	}
-	open24 := "-"
+	utc4h := "-"
+	if s.UTC4hPct != nil {
+		utc4h = fmt.Sprintf("%+.1f", *s.UTC4hPct)
+	}
+	utc1h := "-"
+	if s.UTC1hPct != nil {
+		utc1h = fmt.Sprintf("%+.1f", *s.UTC1hPct)
+	}
+	openUTC := "-"
 	if s.OpenPrice > 0 {
-		open24 = fmt.Sprintf("%.4f", s.OpenPrice)
+		openUTC = fmt.Sprintf("%.4f", s.OpenPrice)
 	}
 	last := "-"
 	if s.LastPrice > 0 {
 		last = fmt.Sprintf("%.4f", s.LastPrice)
 	}
-	grade := ColorGrade(s.Grade)
-	return fmt.Sprintf("%-12s | %6.2f | %7.1f | %7s | %7s | %7s | %10s | %8s | %8s | %s",
-		DisplaySymbol(s.Symbol), s.Score, s.Change24h, dayUTC, HumanUSD(s.VolumeUSD), oi, funding, open24, last, grade)
+	return fmt.Sprintf("%-12s | %6.2f | %7s | %7s | %7s | %8.1f | %7s | %7s | %10s | %8s | %8s",
+		DisplaySymbol(s.Symbol), s.Score, dayUTC, utc4h, utc1h, s.Change24h, HumanUSD(s.VolumeUSD), oi, funding, openUTC, last)
 }
